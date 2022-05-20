@@ -1,7 +1,7 @@
 <template>
   <header class="pt-5 pb-5">
     <div class="container d-flex justify-content-between align-items-center">
-      <img class="logo" src="../assets/img/logo.png" alt="">
+      <img class="logo"  @click="seKey('')" src="../assets/img/logo.png" alt="">
       <div class="searcher">
         <input v-model="searchkey" @keyup.enter="seKey()"  placeholder="cerca" type="text">
         <button @click="seKey()">Cerca</button>
@@ -20,8 +20,12 @@ export default {
     }
   },
   methods: {
-    seKey(){
-      this.$emit('search_key', this.searchkey)
+    seKey(param){
+      if(param === ""){
+        this.$emit('search_key',"")
+      }else{
+        this.$emit('search_key', this.searchkey)
+      }
     }
   },
 }
@@ -30,6 +34,7 @@ export default {
 <style lang="scss" scoped>
 .logo{
   width: 14vw;
+  cursor: pointer;
 }
 input{
   padding: 5px 10px;

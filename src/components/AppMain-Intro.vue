@@ -66,7 +66,7 @@ export default {
 }
 .card-sc{
   div{
-    height: 40vh;
+    height: 42vh;
         width: 28vh;
         flex-direction: column;
         align-items: center;

@@ -25,7 +25,7 @@ export default {
 <style lang="scss" scoped>
 .card-sc{
     background-color: rgb(55, 55, 55);
-        height: 40vh;
+        height: 42vh;
         width: 28vh;
         flex-direction: column;
         align-items: center;
