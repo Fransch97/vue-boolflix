@@ -1,15 +1,35 @@
 <template>
   <div id="app">
+    <!--AFTER INTRO  -->
     <div v-if="page">
+
+      <!-- HEADER  -->
       <AppHeader @search_key="sk"/>
-      <div v-if="loader" class="text-center">
+      <!--END HEADER  -->
+      
+      <!-- LOADER  -->
+      <!-- <div v-if="loader" class="text-center">
         <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
+      </div> -->
+      <!--END LOADER  -->
+
+      <!-- MAIN  -->
+      <div >
+        <AppMainIntro v-if="apiStructure.query === ''" :films="introMain.films" :genre="introMain.genres"/>
+        <AppMain v-else :films="films"/>
       </div>
-      <AppMain v-else :films="films"/>
+      <!--END MAIN  -->
+
     </div>
+    <!--END AFTER INTRO  -->
+    
+    <!-- INTRO  -->
     <div id="logo" v-else>
       <img src="./assets/img/logo.png" alt="">
     </div>
+    <!--END INTRO  -->
+  
+  
   </div>
 </template>
 
@@ -17,20 +37,32 @@
 import AppHeader from "./components/AppHeader.vue";
 import axios from "axios";
 import AppMain from "./components/AppMain.vue";
+import AppMainIntro from "./components/AppMain-Intro.vue";
 
 export default {
   name: "App",
-  components: { AppHeader, AppMain },
+  components: { AppHeader, AppMain, AppMainIntro },
     data() {
         return {
             apiUrl: "https://api.themoviedb.org/3/search/movie",
             apiStructure:{
               api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
               language: "it-IT",
-              query:"potter"
+              query:""
             },
             loader: true,
             films:[],
+            introMain:{
+              apiUrl:"https://api.themoviedb.org/3/trending/movie/day",
+              getGenre:{
+                api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
+                language: "it-IT",
+                page: 1,
+              },
+              times: 3,
+              genres: [],
+              films:[]
+            },
             page: false
         };
     },
@@ -54,9 +86,41 @@ export default {
       },
       sk(sk){
         console.log(sk)
-        this.apiStructure.query =  sk
-        this.getApi()
+        if(sk.trim === ""){
+          this.introMainFunction()
+          this.apiStructure.query =  sk
+        }else{
+          this.apiStructure.query =  sk
+          this.getApi()
+        }
       },
+      introMainFunction(){
+        this.loader = true
+        axios.get("https://api.themoviedb.org/3/genre/movie/list?api_key=2a58d3ca96348e8aa76ec66be55ffce4&language=it-IT")
+        .then(r=>{
+          console.log(r.data.genres)
+          this.introMain.genres = r.data.genres
+            
+        })
+          for(let i = 0; i< this.introMain.times; i++){
+            this.introMain.getGenre.page++
+            axios.get(this.introMain.apiUrl, {
+              params: this.introMain.getGenre
+            })
+            .then(re=>{
+              console.log(re.data.results , "sono", i)
+              re.data.results.forEach(element => {
+                this.introMain.films.push(element)
+              });
+              
+              console.log(this.introMain.films)
+            })
+
+          }
+          this.loader = false
+
+         
+      }
       
     },
     mounted() {
@@ -64,7 +128,7 @@ export default {
       open.play()
       setTimeout(()=>{
         this.page = true
-        this.getApi()
+        this.introMainFunction()
       }, 3000)
       
     }

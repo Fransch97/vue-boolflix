@@ -1,7 +1,7 @@
 <template>
   <header class="pt-5 pb-5">
-    <div class="container d-flex justify-content-between">
-      <div class="logo">Boolflix</div>
+    <div class="container d-flex justify-content-between align-items-center">
+      <img class="logo" src="../assets/img/logo.png" alt="">
       <div class="searcher">
         <input v-model="searchkey" @keyup.enter="seKey()"  placeholder="cerca" type="text">
         <button @click="seKey()">Cerca</button>
@@ -27,8 +27,23 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.logo{
+  width: 14vw;
+}
+input{
+  padding: 5px 10px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-color: black;
+
+}
+
 button{
-  color: black;
+  background-color: rgb(44, 44, 44);
+  border-color: rgb(42, 42, 42);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 6px 10px;
 }
 </style>
