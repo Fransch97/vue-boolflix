@@ -7,12 +7,14 @@
         <h1>{{gen.name}}</h1>
         <div class="films d-flex ">
           <div v-for="(fil, index) in gen.film" :key="`film${index}`" class="card-sc">
-            <div>
+            <div class="position-relative">
               <img :src="`https://image.tmdb.org/t/p/w500${fil.poster_path}`" alt="">
-              <p>Titolo: {{fil.title}}</p>
-               <p>Titolo originale: {{fil.original_title}}</p>
-              <p>Lingua: {{fil.original_language}}</p>
-              <p>Voto: {{fil.vote_average}}</p>
+              <div class="card-info">
+                <p>Titolo: {{fil.title}}</p>
+                <p>Titolo originale: {{fil.original_title}}</p>
+                <p>Lingua: {{fil.original_language}}</p>
+                <p>Voto: {{fil.vote_average}}</p>
+              </div>
             </div>
           </div>
       </div>
@@ -64,14 +66,29 @@ export default {
 }
 .card-sc{
   div{
-        background-color: rgb(55, 55, 55);
-        height: 40vh;
+    height: 40vh;
         width: 28vh;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         margin: 30px;
+        cursor: pointer;
         overflow: hidden;
+        .card-info{
+          position: absolute;
+          top: 0;
+          left:0;
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.641);
+          padding: 20px;
+          text-align: center;
+          display: none;
+        }
+          &:hover .card-info{
+            display: block;
+          }
         img{
           width: 100%;
         }
