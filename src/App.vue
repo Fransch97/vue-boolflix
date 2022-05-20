@@ -8,9 +8,9 @@
       <!--END HEADER  -->
       
       <!-- LOADER  -->
-      <!-- <div v-if="loader" class="text-center">
+      <div v-if="loader" class="text-center">
         <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
-      </div> -->
+      </div>
       <!--END LOADER  -->
 
       <!-- MAIN  -->
@@ -90,21 +90,28 @@ export default {
       },
       sk(sk){
         console.log(sk)
-        if(sk.trim === ""){
+        if (!(sk === "")){
+            this.apiStructure.query =  sk
+            this.getApi()
+          }else{
           this.introMainFunction()
-          this.apiStructure.query =  sk
-        }else{
-          this.apiStructure.query =  sk
-          this.getApi()
-        }
+            this.apiStructure.query =  sk
+          this.loader = false
+          } 
       },
       introMainFunction(){
-        this.loader = true
+        this.loader= true
+        this.introMain.getGenre.page = 1
+        this.introMain.genres = []
+        this.introMain.films =[]
         axios.get("https://api.themoviedb.org/3/genre/movie/list?api_key=2a58d3ca96348e8aa76ec66be55ffce4&language=it-IT")
         .then(r=>{
           console.log(r.data.genres)
           this.introMain.genres = r.data.genres
-            
+        })
+        .catch(e=>{
+          console.log(e)
+          this.loader = false
         })
           for(let i = 0; i< this.introMain.times; i++){
             this.introMain.getGenre.page++
@@ -116,12 +123,12 @@ export default {
               re.data.results.forEach(element => {
                 this.introMain.films.push(element)
               });
-              
+            
               console.log(this.introMain.films)
             })
-
+            
           }
-          this.loader = false
+                this.loader = false
 
          
       },

@@ -22,7 +22,8 @@ export default {
   methods: {
     seKey(param){
       if(param === ""){
-        this.$emit('search_key',"")
+        this.searchkey = ""
+        this.$emit('search_key',this.searchkey )
       }else{
         this.$emit('search_key', this.searchkey)
       }
