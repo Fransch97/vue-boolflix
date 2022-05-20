@@ -4,12 +4,14 @@
     <div v-if="loader" class="text-center">
       <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
     </div>
+    <AppMain :films="films"/>
   </div>
 </template>
 
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import axios from "axios";
+import AppMain from "./components/AppMain.vue";
 
 export default {
     name: "App",
@@ -22,6 +24,7 @@ export default {
               query:"potter"
             },
             loader: true,
+            films:[]
         };
     },
     methods: {
@@ -32,6 +35,7 @@ export default {
         })
         .then(r=>{
           console.log(r.data.results)
+          this.films = r.data.results
           this.loader = false
         })
         .catch(err=>{
@@ -42,7 +46,7 @@ export default {
     mounted() {
       this.getApi()
     },
-    components: { AppHeader }
+    components: { AppHeader, AppMain }
 }
 </script>
 
