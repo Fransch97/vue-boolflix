@@ -14,7 +14,7 @@
       <!--END LOADER  -->
 
       <!-- MAIN  -->
-      <div class="realmain">
+      <div v-else class="realmain">
         <AppMainIntro v-if="apiStructure.query === ''" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
         <AppMain v-else :films="films"  @filmID="sendcard"/>
         <AppFilmCard v-if="appCard" :filmApi="cardID" @back="back"/>
@@ -122,13 +122,15 @@ export default {
               console.log(re.data.results , "sono", i)
               re.data.results.forEach(element => {
                 this.introMain.films.push(element)
+                if(i == this.introMain.times - 1 ){
+                  this.loader = false
+                }
               });
             
               console.log(this.introMain.films)
             })
             
           }
-                this.loader = false
 
          
       },
