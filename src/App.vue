@@ -14,10 +14,10 @@
       <!--END LOADER  -->
 
       <!-- MAIN  -->
-      <div >
-        <AppMainIntro v-if="apiStructure.query === '' && !appCard" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
-        <AppFilmCard v-else-if="appCard" :filmApi="cardID" @back="back"/>
+      <div class="realmain">
+        <AppMainIntro v-if="apiStructure.query === ''" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
         <AppMain v-else :films="films"  @filmID="sendcard"/>
+        <AppFilmCard v-if="appCard" :filmApi="cardID" @back="back"/>
       </div>
       <!--END MAIN  -->
 
@@ -149,6 +149,9 @@ export default {
 
 <style lang="scss">
 @import "./assets/style/global";
+.realmain{
+  position: relative;
+}
 
 #logo{
   display: flex;

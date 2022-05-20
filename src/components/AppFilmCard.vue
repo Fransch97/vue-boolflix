@@ -27,6 +27,14 @@ props:{
 </script>
 
 <style lang="scss" scoped>
+.Appfilmcard{
+  position: fixed;
+  top: 15%;
+  background-color: black;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+}
 h1{
   font-weight: bold;
   text-align: center;
