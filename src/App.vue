@@ -5,7 +5,7 @@
       <div v-if="loader" class="text-center">
         <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
       </div>
-      <AppMain :films="films"/>
+      <AppMain v-else :films="films"/>
     </div>
     <div id="logo" v-else>
       <img src="./assets/img/logo.png" alt="">
