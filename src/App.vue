@@ -71,7 +71,8 @@ export default {
             },
             page: false,
             appCard: false,
-            afker: true
+            afker: false,
+            banner: null
         };
     },
     computed:{
@@ -146,10 +147,12 @@ export default {
         this.appCard = bool
       },
       afk(){
+        clearInterval(this.banner)
         this.afker = false
-        setTimeout(() => {
+
+        this.banner = setTimeout(() => {
           this.afker = true
-        }, 10000);
+        }, 3000);
       }
       
     },
