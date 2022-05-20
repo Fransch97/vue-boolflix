@@ -59,7 +59,7 @@ export default {
                 language: "it-IT",
                 page: 1,
               },
-              times: 3,
+              times: 10,
               genres: [],
               films:[]
             },
