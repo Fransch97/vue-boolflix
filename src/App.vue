@@ -1,18 +1,20 @@
 <template>
-  <div id="app">
+  <div id="app" @mousemove="afk()">
     <!--AFTER INTRO  -->
     <div v-if="page">
 
       <!-- HEADER  -->
       <AppHeader @search_key="sk"/>
       <!--END HEADER  -->
+      <div v-if="afker">
+        <AppAfkJabo :films="introMain.films" :searchfilms="films" />
+      </div>
       
       <!-- LOADER  -->
       <div v-if="loader" class="text-center">
         <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
       </div>
       <!--END LOADER  -->
-
       <!-- MAIN  -->
       <div v-else class="realmain">
         <AppMainIntro v-if="apiStructure.query === ''" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
@@ -40,10 +42,11 @@ import axios from "axios";
 import AppMain from "./components/AppMain.vue";
 import AppMainIntro from "./components/AppMain-Intro.vue";
 import AppFilmCard from "./components/AppFilmCard.vue";
+import AppAfkJabo from "./components/AppAfkJabo.vue";
 
 export default {
   name: "App",
-  components: { AppHeader, AppMain, AppMainIntro, AppFilmCard },
+  components: { AppHeader, AppMain, AppMainIntro, AppFilmCard, AppAfkJabo },
     data() {
         return {
             apiUrl: "https://api.themoviedb.org/3/search/movie",
@@ -67,7 +70,8 @@ export default {
               cardID:{}
             },
             page: false,
-            appCard: false
+            appCard: false,
+            afker: true
         };
     },
     computed:{
@@ -140,6 +144,12 @@ export default {
       },
       back(bool){
         this.appCard = bool
+      },
+      afk(){
+        this.afker = false
+        setTimeout(() => {
+          this.afker = true
+        }, 10000);
       }
       
     },
