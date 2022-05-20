@@ -7,7 +7,8 @@
         <h2>Titolo originale: {{filmApi.original_title}}</h2>
         
         <p>{{filmApi.overview}}</p>
-        <p>Data di rilascio: {{filmApi.release_date}}</p>
+        <p>Data di rilascio: {{filmApi.release_date.split("-").reverse().join("  ")}}</p>
+        <p>Linuga: {{filmApi.original_language}}</p>
         <p>Voto: {{filmApi.vote_average}}</p>
 
         <button class="btn btn-danger" @click="$emit('back', false)">Torna ai film</button>
