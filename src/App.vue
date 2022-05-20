@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppHeader />
+    <AppHeader @search_key="sk"/>
     <div v-if="loader" class="text-center">
       <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
     </div>
@@ -27,6 +27,9 @@ export default {
             films:[]
         };
     },
+    computed:{
+
+    },
     methods: {
       getApi(){
          this.loader = true
@@ -41,6 +44,11 @@ export default {
         .catch(err=>{
           console.log("LOL!" ,err)
         })
+      },
+      sk(sk){
+        console.log(sk)
+        this.apiStructure.query =  sk
+        this.getApi()
       }
     },
     mounted() {
