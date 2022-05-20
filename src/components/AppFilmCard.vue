@@ -34,6 +34,7 @@ props:{
   left: 50%;
   transform: translateX(-50%);
   width: 80vw;
+  padding: 50px;
 }
 h1{
   font-weight: bold;
@@ -42,9 +43,10 @@ h1{
 }
 .info-box{
   display: flex;
-  img{
+  
+}
+img{
     height:42vh;
         width: 28vh;
   }
-}
 </style>
