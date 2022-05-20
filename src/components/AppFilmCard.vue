@@ -35,7 +35,8 @@ h1{
 .info-box{
   display: flex;
   img{
-    width: 42vh;
+    height:42vh;
+        width: 28vh;
   }
 }
 </style>

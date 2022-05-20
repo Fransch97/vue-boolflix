@@ -17,7 +17,7 @@
       <div >
         <AppMainIntro v-if="apiStructure.query === '' && !appCard" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
         <AppFilmCard v-else-if="appCard" :filmApi="cardID" @back="back"/>
-        <AppMain v-else :films="films"/>
+        <AppMain v-else :films="films"  @filmID="sendcard"/>
       </div>
       <!--END MAIN  -->
 

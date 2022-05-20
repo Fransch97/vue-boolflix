@@ -7,6 +7,7 @@
                 <p>Titolo originale: {{film.original_title}}</p>
                 <p>Lingua: {{film.original_language}}</p>
                 <p>Voto: {{film.vote_average}}</p>
+                <button class="btn btn-danger" @click="$emit('filmID', film)">Film</button>
             </div>
         </div>
     </main>
