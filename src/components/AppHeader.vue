@@ -3,8 +3,8 @@
     <div class="container d-flex justify-content-between align-items-center">
       <img class="logo"  @click="seKey('')" src="../assets/img/logo.png" alt="">
       <div class="searcher">
-        <input v-model="searchkey" @keyup.enter="seKey()"  placeholder="cerca" type="text">
-        <button @click="seKey()">Cerca</button>
+        <input v-model="searchkey" @keyup.enter="seKey()"   placeholder="cerca" type="text">
+        <button @click="seKey()" class="btn btn-danger">Cerca</button>
       </div>
     </div>
       
@@ -45,10 +45,11 @@ input{
 }
 
 button{
-  background-color: rgb(44, 44, 44);
-  border-color: rgb(42, 42, 42);
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 6px 10px;
+  // background-color: rgb(44, 44, 44);
+  // border-color: rgb(42, 42, 42);
+  // border-top-right-radius: 8px;
+  // border-bottom-right-radius: 8px;
+  // padding: 6px 10px;
+  margin-bottom:5px ;
 }
 </style>

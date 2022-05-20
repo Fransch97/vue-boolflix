@@ -15,7 +15,8 @@
 
       <!-- MAIN  -->
       <div >
-        <AppMainIntro v-if="apiStructure.query === ''" :films="introMain.films" :genre="introMain.genres"/>
+        <AppMainIntro v-if="apiStructure.query === '' && !appCard" :films="introMain.films" :genre="introMain.genres" @filmID="sendcard"/>
+        <AppFilmCard v-else-if="appCard" :filmApi="cardID" @back="back"/>
         <AppMain v-else :films="films"/>
       </div>
       <!--END MAIN  -->
@@ -38,10 +39,11 @@ import AppHeader from "./components/AppHeader.vue";
 import axios from "axios";
 import AppMain from "./components/AppMain.vue";
 import AppMainIntro from "./components/AppMain-Intro.vue";
+import AppFilmCard from "./components/AppFilmCard.vue";
 
 export default {
   name: "App",
-  components: { AppHeader, AppMain, AppMainIntro },
+  components: { AppHeader, AppMain, AppMainIntro, AppFilmCard },
     data() {
         return {
             apiUrl: "https://api.themoviedb.org/3/search/movie",
@@ -61,9 +63,11 @@ export default {
               },
               times: 10,
               genres: [],
-              films:[]
+              films:[],
+              cardID:{}
             },
-            page: false
+            page: false,
+            appCard: false
         };
     },
     computed:{
@@ -120,6 +124,13 @@ export default {
           this.loader = false
 
          
+      },
+      sendcard(obj){
+        this.cardID = obj
+        this.appCard = true
+      },
+      back(bool){
+        this.appCard = bool
       }
       
     },
