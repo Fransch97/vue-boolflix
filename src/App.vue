@@ -1,10 +1,15 @@
 <template>
   <div id="app">
-    <AppHeader @search_key="sk"/>
-    <div v-if="loader" class="text-center">
-      <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
+    <div v-if="page">
+      <AppHeader @search_key="sk"/>
+      <div v-if="loader" class="text-center">
+        <div class="lds-ring "><div></div><div></div><div></div><div></div></div>
+      </div>
+      <AppMain :films="films"/>
     </div>
-    <AppMain :films="films"/>
+    <div id="logo" v-else>
+      <img src="./assets/img/logo.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -14,7 +19,8 @@ import axios from "axios";
 import AppMain from "./components/AppMain.vue";
 
 export default {
-    name: "App",
+  name: "App",
+  components: { AppHeader, AppMain },
     data() {
         return {
             apiUrl: "https://api.themoviedb.org/3/search/movie",
@@ -24,7 +30,8 @@ export default {
               query:"potter"
             },
             loader: true,
-            films:[]
+            films:[],
+            page: false
         };
     },
     computed:{
@@ -49,17 +56,33 @@ export default {
         console.log(sk)
         this.apiStructure.query =  sk
         this.getApi()
-      }
+      },
+      
     },
     mounted() {
-      this.getApi()
-    },
-    components: { AppHeader, AppMain }
+      const open = new Audio(require('./assets/sound/Netflix-Intro-Sound-Effect.mp3'))
+      open.play()
+      setTimeout(()=>{
+        this.page = true
+        this.getApi()
+      }, 3000)
+      
+    }
+    
 }
 </script>
 
 <style lang="scss">
 @import "./assets/style/global";
+
+#logo{
+  display: flex;
+  justify-content: center ;
+  align-items: center;
+  height: 100vh;
+}
+
+
 .lds-ring {
   display: inline-block;
   position: relative;
