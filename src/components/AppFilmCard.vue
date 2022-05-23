@@ -4,12 +4,24 @@
     <div class="container d-flex ">
       <img :src="`https://image.tmdb.org/t/p/w500${filmApi.poster_path}`" alt="">
       <div class="info-box d-inline-block mx-4">
-        <h2>Titolo originale: {{filmApi.original_title}}</h2>
+        <h2 v-if="filmApi.original_title">Titolo originale: {{filmApi.original_title}}</h2>
+        <h2 v-else>Titolo originale: {{filmApi.original_name}}</h2>
         
         <p>{{filmApi.overview}}</p>
-        <p>Data di rilascio: {{filmApi.release_date.split("-").reverse().join(".")}}</p>
-        <p>Linuga: {{filmApi.original_language}}</p>
-        <p>Voto: {{filmApi.vote_average}}</p>
+        <p v-if="filmApi.release_date">Data di rilascio: {{filmApi.release_date.split("-").reverse().join(".")}}</p>
+        <p v-else>Data di rilascio: {{filmApi.first_air_date.split("-").reverse().join(".")}}</p>
+       
+        <lang-flag 
+        v-if="oklng.includes(filmApi.original_language)" 
+        :iso="filmApi.original_language"  class="flagi"/>
+        <p v-else>lingua: {{filmApi.original_language}}</p>
+        <star-rating
+                class="stars"
+                :increment="0.01"
+                :rating="filmApi.vote_average/2"
+                :star-size="27"
+                :read-only="true"
+                ></star-rating>
 
         <button class="btn btn-danger" @click="$emit('back', false)">Torna ai film</button>
       </div>
@@ -19,15 +31,35 @@
 </template>
 
 <script>
+import LangFlag from 'vue-lang-code-flags';
+import StarRating from 'vue-star-rating';
+
 export default {
 name : "AppFilmCard",
+components: {
+        LangFlag,
+        StarRating
+
+    },
+
 props:{
     filmApi: Object
-}
+},
+data() {
+      return {
+        oklng : ["ar","am","az","be","bn","bg","zh","ca","cs","en","et","fr","de","el","ha","hi","hu","it","ja","jv","km","ko","lv","ms","mr","fa","pl","pt","ro","ru","es","sw","ta","te","th","tr","uz","vi",]
+      }
+    },
 }
 </script>
 
 <style lang="scss" scoped>
+.vue-star-rating{
+    display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 20px 0;
+}
 .Appfilmcard{
   position: fixed;
   top: 15%;
@@ -49,5 +81,9 @@ h1{
 img{
     height:42vh;
         width: 28vh;
+  }
+  .flagi{
+    width: 50px;
+    height: 50px;
   }
 </style>

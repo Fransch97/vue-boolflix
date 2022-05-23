@@ -7,13 +7,25 @@
         <h1>{{gen.name}}</h1>
         <div class="films d-flex ">
           <div v-for="(fil, index) in gen.film" :key="`film${index}`" class="card-sc">
-            <div class="position-relative">
+            <div class="position-relative cc">
               <img :src="`https://image.tmdb.org/t/p/w500${fil.poster_path}`" alt="">
               <div class="card-info">
-                <p>Titolo: {{fil.title}}</p>
-                <p>Titolo originale: {{fil.original_title}}</p>
-                <p>Lingua: {{fil.original_language}}</p>
-                <p>Voto: {{fil.vote_average}}</p>
+                <p v-if="fil.title">Titolo: {{fil.title}}</p>
+                <p v-else>Titolo: {{fil.name}}</p>
+                <p v-if="fil.original_title">Titolo originale: {{fil.original_title}}</p>
+                <p v-else>Titolo originale: {{fil.original_name}}</p>
+                <lang-flag v-if="oklng.includes(fil.original_language)" :iso="fil.original_language"  class="flagi"/>
+                <p v-else>lingua: {{fil.original_language}}</p>
+
+                <star-rating
+                class="stars"
+                :increment="0.01"
+                :rating="fil.vote_average/2"
+                :star-size="27"
+                :read-only="true"
+                ></star-rating>
+
+
 
                 <button class="btn btn-danger" @click="$emit('filmID', fil)">Film</button>
               </div>
@@ -28,8 +40,19 @@
 </template>
 
 <script>
+import LangFlag from 'vue-lang-code-flags';
+import StarRating from 'vue-star-rating';
 export default {
     name: "AppMain-Intro",
+    components: {
+        LangFlag,
+        StarRating
+    },
+    data() {
+      return {
+        oklng : ["ar","am","az","be","bn","bg","zh","ca","cs","en","et","fr","de","el","ha","hi","hu","it","ja","jv","km","ko","lv","ms","mr","fa","pl","pt","ro","ru","es","sw","ta","te","th","tr","uz","vi",]
+      }
+    },
     props: {
       films:Array,
       genre:Array
@@ -51,23 +74,31 @@ export default {
 
 
       }
-    }
+    },
+    
 
 }
 </script>
 
 <style lang="scss">
+.vue-star-rating{
+    display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 20px 0;
+}
 .pop{
   font-weight: bold;
   font-size: 4rem;
   padding: 30px 0;
 }
 
+
 .films{
   overflow: auto;
 }
 .card-sc{
-  div{
+  .cc{
     height: 42vh;
         width: 28vh;
         flex-direction: column;
@@ -95,5 +126,9 @@ export default {
           width: 100%;
         }
     }
+     .flagi{
+    width: 50px;
+    height: 50px;
+  }
 }
 </style>

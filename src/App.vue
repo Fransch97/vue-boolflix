@@ -4,7 +4,7 @@
     <div v-if="page">
 
       <!-- HEADER  -->
-      <AppHeader @search_key="sk"/>
+      <AppHeader @search_key="sk" @search_lib="setlib"/>
       <!--END HEADER  -->
       <div v-if="afker">
         <AppAfkJabo :films="introMain.films" :searchfilms="films" />
@@ -49,7 +49,8 @@ export default {
   components: { AppHeader, AppMain, AppMainIntro, AppFilmCard, AppAfkJabo },
     data() {
         return {
-            apiUrl: "https://api.themoviedb.org/3/search/movie",
+            searchlibrary: "",
+            apiUrl: "https://api.themoviedb.org/3/search/",
             apiStructure:{
               api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
               language: "it-IT",
@@ -58,7 +59,7 @@ export default {
             loader: true,
             films:[],
             introMain:{
-              apiUrl:"https://api.themoviedb.org/3/trending/movie/day",
+              apiUrl:"https://api.themoviedb.org/3/trending/all/day",
               getGenre:{
                 api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
                 language: "it-IT",
@@ -72,16 +73,32 @@ export default {
             page: false,
             appCard: false,
             afker: false,
-            banner: null
+            banner: null,
         };
     },
     computed:{
 
     },
     methods: {
+      setlib(key){
+        this.searchlibrary = key
+        if(this.apiStructure.query !== ""){
+          if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
+          this.getApi()
+        }else{
+          if(key === "all"){
+           this.introMain.apiUrl =  "https://api.themoviedb.org/3/trending/all/day"
+          } else if(key === "movie"){
+           this.introMain.apiUrl =  "https://api.themoviedb.org/3/trending/movie/day"
+          }else{
+           this.introMain.apiUrl =  "https://api.themoviedb.org/3/trending/tv/day"
+          }
+           this.introMainFunction()
+        }
+      },
       getApi(){
          this.loader = true
-        axios.get(this.apiUrl,{
+          axios.get(this.apiUrl + this.searchlibrary,{
           params:this.apiStructure
         })
         .then(r=>{
@@ -97,6 +114,7 @@ export default {
         console.log(sk)
         if (!(sk === "")){
             this.apiStructure.query =  sk
+          // if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
             this.getApi()
           }else{
           this.introMainFunction()

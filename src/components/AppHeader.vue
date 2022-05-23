@@ -2,6 +2,12 @@
   <header class="pt-5 pb-5">
     <div class="container d-flex justify-content-between align-items-center">
       <img class="logo"  @click="seKey('')" src="../assets/img/logo.png" alt="">
+      <div class="align-items-end">
+
+        <h3 :class=" settedLib === 'all' ? 'underline' : '' " @click="setlibrary('all')" class="d-inline-block ml-5">Tutti</h3>
+        <h3 :class=" settedLib === 'movie' ? 'underline' : '' " @click="setlibrary('movie')" class="d-inline-block mx-5">Film</h3>
+        <h3 :class=" settedLib === 'tv' ? 'underline' : '' " @click="setlibrary('tv')" class="d-inline-block ">Serie TV</h3>
+      </div>
       <div class="searcher">
         <input v-model="searchkey" @keyup.enter="seKey()"   placeholder="cerca" type="text">
         <button @click="seKey()" class="btn btn-danger">Cerca</button>
@@ -16,10 +22,15 @@ export default {
   name: "AppHeader",
   data() {
     return {
-      searchkey: ""
+      searchkey: "",
+      settedLib: "all"
     }
   },
   methods: {
+    setlibrary(param){
+        this.$emit('search_lib', param )
+        this.settedLib = param
+    },
     seKey(param){
       if(param === ""){
         this.searchkey = ""
@@ -33,6 +44,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h3{
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.underline{
+  text-decoration: underline;
+}
+
 .logo{
   width: 14vw;
   cursor: pointer;
