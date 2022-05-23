@@ -49,7 +49,7 @@ export default {
   components: { AppHeader, AppMain, AppMainIntro, AppFilmCard, AppAfkJabo },
     data() {
         return {
-            searchlibrary: "",
+            searchlibrary: "all",
             apiUrl: "https://api.themoviedb.org/3/search/",
             apiStructure:{
               api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
@@ -114,7 +114,7 @@ export default {
         console.log(sk)
         if (!(sk === "")){
             this.apiStructure.query =  sk
-          // if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
+          if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
             this.getApi()
           }else{
           this.introMainFunction()
