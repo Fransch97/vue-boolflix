@@ -61,7 +61,9 @@ data() {
   margin: 20px 0;
 }
 .Appfilmcard{
+  overflow-y: auto;
   position: fixed;
+  height: 70vh;
   top: 15%;
   background-color: black;
   left: 50%;

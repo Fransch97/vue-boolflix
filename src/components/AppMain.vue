@@ -51,7 +51,8 @@ export default {
 
 <style lang="scss" scoped>
 .card-sc{
-    background-color: rgb(55, 55, 55);
+       
+        background-color: rgb(55, 55, 55);
         height: 42vh;
         width: 28vh;
         flex-direction: column;
@@ -64,6 +65,8 @@ export default {
           width: 100%;
         }
          .card-info{
+          overflow-y: auto;
+          overflow-x: hidden;
           position: absolute;
           top: 0;
           left:0;

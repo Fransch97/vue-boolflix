@@ -99,7 +99,7 @@ export default {
 }
 .card-sc{
   .cc{
-    height: 42vh;
+        height: 42vh;
         width: 28vh;
         flex-direction: column;
         align-items: center;
@@ -108,6 +108,8 @@ export default {
         cursor: pointer;
         overflow: hidden;
         .card-info{
+          overflow-y: auto;
+          overflow-x: hidden;
           position: absolute;
           top: 0;
           left:0;
