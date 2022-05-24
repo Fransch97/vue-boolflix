@@ -10,9 +10,8 @@
         <p>{{filmApi.overview}}</p>
         <p v-if="filmApi.release_date">Data di rilascio: {{filmApi.release_date.split("-").reverse().join(".")}}</p>
         <p v-else>Data di rilascio: {{filmApi.first_air_date.split("-").reverse().join(".")}}</p>
-        <p>Attori: 
-
-        </p>
+        <p>Attori: <span v-for="(actor,index) in attori" :key="`attore-${index}`">{{actor}}, </span> </p>
+        <p v-for="(genre, index) in filmgenre" :key="`genre-${index}`">Genere {{index + 1}}: {{genre.name}}</p>
        
         <lang-flag 
         v-if="oklng.includes(filmApi.original_language)" 
@@ -54,17 +53,22 @@ data() {
               api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
               oklng : ["ar","am","az","be","bn","bg","zh","ca","cs","en","et","fr","de","el","ha","hi","hu","it","ja","jv","km","ko","lv","ms","mr","fa","pl","pt","ro","ru","es","sw","ta","te","th","tr","uz","vi",],
               crew: [],
-              attori: []
+              attori: [],
+              filmgenre: []
       }
     },
 mounted() {
   axios.get('https://api.themoviedb.org/3/movie/' + this.filmApi.id + '/credits?api_key=' + this.api_key + '&language=en-US')
   .then((r)=>{
     this.crew = r.data.crew
-    this.crew.forEach(crewmember => {
-      this.attori.push(crewmember.name)
-      console.log(this.attori)
-    });
+    for(let i = 0; i < 5 ; i++){
+      this.attori.push(this.crew[i].name)
+    }
+    })
+  axios.get('https://api.themoviedb.org/3/movie/' + this.filmApi.id + '?api_key=' + this.api_key + '&language=en-US')
+  .then((r)=>{
+    this.filmgenre = r.data.genres
+  
     })
 },
 }
