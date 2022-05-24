@@ -9,6 +9,10 @@
         <h3 :class=" settedLib === 'tv' ? 'underline' : '' " @click="setlibrary('tv')" class="d-inline-block ">Serie TV</h3>
       </div>
       <div class="searcher">
+        <select v-model="selectOpt" name="all" id="">
+        <option value="all" selected @change="selectOpt=value">Tutti</option>
+          <option :value="[gen.name, gen.id]" v-for="(gen, index) in genreList" :key="index">{{gen.name}}</option>
+        </select>
         <input v-model="searchkey" @keyup.enter="seKey()"   placeholder="cerca" type="text">
         <button @click="seKey()" class="btn btn-danger">Cerca</button>
       </div>
@@ -20,10 +24,14 @@
 <script>
 export default {
   name: "AppHeader",
+  props:{
+    genreList: Array
+  },
   data() {
     return {
       searchkey: "",
-      settedLib: "all"
+      settedLib: "all",
+      selectOpt: "all"
     }
   },
   methods: {
@@ -34,11 +42,14 @@ export default {
     seKey(param){
       if(param === ""){
         this.searchkey = ""
-        this.$emit('search_key',this.searchkey )
+        this.$emit('search_key',[this.searchkey] )
       }else{
-        this.$emit('search_key', this.searchkey)
+        this.$emit('search_key', [this.searchkey, this.selectOpt])
       }
     }
+  },
+  mounted() {
+    console.log(this.genreList)
   },
 }
 </script>
@@ -57,14 +68,14 @@ h3{
   width: 14vw;
   cursor: pointer;
 }
-input{
+input,select,option{
   padding: 5px 10px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   border-color: black;
+  color: black;
 
 }
-
 button{
   // background-color: rgb(44, 44, 44);
   // border-color: rgb(42, 42, 42);

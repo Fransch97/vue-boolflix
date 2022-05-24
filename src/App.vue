@@ -4,7 +4,7 @@
     <div v-if="page">
 
       <!-- HEADER  -->
-      <AppHeader @search_key="sk" @search_lib="setlib"/>
+      <AppHeader @search_key="sk" @search_lib="setlib" :genreList="introMain.genres"/>
       <!--END HEADER  -->
       <div v-if="afker">
         <AppAfkJabo :films="introMain.films" :searchfilms="films" />
@@ -74,6 +74,7 @@ export default {
             appCard: false,
             afker: false,
             banner: null,
+            genfilter: "all"
         };
     },
     computed:{
@@ -112,13 +113,26 @@ export default {
       },
       sk(sk){
         console.log(sk)
-        if (!(sk === "")){
-            this.apiStructure.query =  sk
-          if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
+          if(!(sk[0] === "") && !(sk[1] === "all")){
+            this.apiStructure.query =  sk[0]
+            if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
+              axios.get(this.apiUrl + this.searchlibrary,{
+                params:this.apiStructure
+              })
+              .then(r=>{
+                console.log(r.data)
+                const filterToarr = r.data.results
+                this.films = filterToarr.filter((el)=>el.genre_ids.includes(sk[1][1]))
+                this.loader = false
+              })
+            
+          }else if (!(sk[0] === "")){
+            this.apiStructure.query =  sk[0]
+            if(this.searchlibrary === "all"){ this.searchlibrary = "multi"}
             this.getApi()
           }else{
           this.introMainFunction()
-            this.apiStructure.query =  sk
+          this.apiStructure.query =  sk
           this.loader = false
           } 
       },
