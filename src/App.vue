@@ -102,7 +102,7 @@ export default {
           params:this.apiStructure
         })
         .then(r=>{
-          console.log(r.data.results)
+          console.log(r.data)
           this.films = r.data.results
           this.loader = false
         })
@@ -170,7 +170,7 @@ export default {
 
         this.banner = setTimeout(() => {
           this.afker = true
-        }, 3000);
+        }, 10000);
       }
       
     },

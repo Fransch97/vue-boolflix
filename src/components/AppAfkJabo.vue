@@ -45,9 +45,10 @@ mounted() {
     }
     @keyframes mymove {
     0%   {scale: 1.0;}
-    25%  {scale: 1.1;}
-    50%  {scale: 1.2;}
-    100% {scale: 1.3;}
+    25%  {scale: 1.3;}
+    50%  {scale: 1.6;}
+    75%  {scale: 1.3;}
+    100% {scale: 1.0;}
 }
     #logo{
         position: fixed;

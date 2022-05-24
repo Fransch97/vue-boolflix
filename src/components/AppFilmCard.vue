@@ -10,6 +10,9 @@
         <p>{{filmApi.overview}}</p>
         <p v-if="filmApi.release_date">Data di rilascio: {{filmApi.release_date.split("-").reverse().join(".")}}</p>
         <p v-else>Data di rilascio: {{filmApi.first_air_date.split("-").reverse().join(".")}}</p>
+        <p>Attori: 
+
+        </p>
        
         <lang-flag 
         v-if="oklng.includes(filmApi.original_language)" 
@@ -33,6 +36,7 @@
 <script>
 import LangFlag from 'vue-lang-code-flags';
 import StarRating from 'vue-star-rating';
+import axios from 'axios';
 
 export default {
 name : "AppFilmCard",
@@ -47,9 +51,22 @@ props:{
 },
 data() {
       return {
-        oklng : ["ar","am","az","be","bn","bg","zh","ca","cs","en","et","fr","de","el","ha","hi","hu","it","ja","jv","km","ko","lv","ms","mr","fa","pl","pt","ro","ru","es","sw","ta","te","th","tr","uz","vi",]
+              api_key: "2a58d3ca96348e8aa76ec66be55ffce4",
+              oklng : ["ar","am","az","be","bn","bg","zh","ca","cs","en","et","fr","de","el","ha","hi","hu","it","ja","jv","km","ko","lv","ms","mr","fa","pl","pt","ro","ru","es","sw","ta","te","th","tr","uz","vi",],
+              crew: [],
+              attori: []
       }
     },
+mounted() {
+  axios.get('https://api.themoviedb.org/3/movie/' + this.filmApi.id + '/credits?api_key=' + this.api_key + '&language=en-US')
+  .then((r)=>{
+    this.crew = r.data.crew
+    this.crew.forEach(crewmember => {
+      this.attori.push(crewmember.name)
+      console.log(this.attori)
+    });
+    })
+},
 }
 </script>
 
