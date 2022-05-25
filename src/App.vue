@@ -31,8 +31,6 @@
       <img src="./assets/img/logo.png" alt="">
     </div>
     <!--END INTRO  -->
-  
-  
   </div>
 </template>
 
@@ -132,7 +130,7 @@ export default {
             this.getApi()
           }else{
           this.introMainFunction()
-          this.apiStructure.query =  sk
+          this.apiStructure.query =  sk[0]
           this.loader = false
           } 
       },
